@@ -1,0 +1,50 @@
+<html>
+<body>
+
+Larghezza pagina: <input type="number" value="1200" id="pagewidth" onchange="process()"></input> px<br>
+Numero colonne: <input type="number" value="12" id="columns" onchange="process()"></input><br>
+Spazio tra le colonne: <input type="number" value="20" id="columnmargin" onchange="process()"></input> px<br>
+
+<br>
+<textarea style="width:100%;height:300px;" id="output"></textarea>
+
+
+<script type="text/javascript">
+function process()
+{
+	var pagewidth=parseInt(document.getElementById('pagewidth').value);
+	var columns=parseInt(document.getElementById('columns').value);
+	var columnmargin=parseInt(document.getElementById('columnmargin').value);
+	var output="/* grid */\n\n";
+	
+	var colwidth=Math.floor((pagewidth/columns)-columnmargin);
+	var colmargin=Math.floor(columnmargin/2);
+	
+	output+=".row { width:"+((colwidth+columnmargin)*columns)+"px; position:relative; clear:both; margin:0 auto; }\n";
+	output+=".column { float:left; }\n";
+	output+=".clearBoth { clear:both; }\n";
+	output+=".grid { margin:0 "+colmargin+"px; position:relative; }\n";
+	output+=".grid.center {	margin:0 auto !important; }\n";
+	output+=".grid.nomargin { margin:0; }\n";
+	output+=".grid img,.grid object,.grid element,.grid iframe { max-width:100%; height:auto; }\n";
+	output+=".grid object,.grid element,.grid iframe { min-height:400px; }\n";
+	output+=".grid object,.grid element { min-height:300px; }\n";
+	output+=".grid>h1:first-child,.grid>h2:first-child,.grid>h3:first-child,.grid>h4:first-child,.grid>h5:first-child,.grid>h6:first-child { margin-top:0; }\n";
+	
+	for(var i=1; i<=columns; i++)
+	{
+		output+=".grid.w"+i+" { width:"+((colwidth*i)+(columnmargin*(i-1)))+"px; }\n";
+	}
+	
+	for(var i=1; i<=columns; i++)
+	{
+		output+=".grid.w"+i+".nomargin { width:"+((colwidth+columnmargin)*i)+"px; }\n";
+	}
+	
+	document.getElementById('output').value=output;
+}
+process();
+</script>
+
+</body>
+</html>
